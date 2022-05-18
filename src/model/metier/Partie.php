@@ -2,7 +2,6 @@
 
 
 namespace src\model\metier;
-use \src\model\ToolModel;
 
 class Partie{
 
