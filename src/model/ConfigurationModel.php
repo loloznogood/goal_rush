@@ -24,7 +24,6 @@ class ConfigurationModel{
      * Constructeur
      */
     public function __construct(string $mode){
-
         if($mode == "dev"){
             $this->settings = [
                 'displayErrorDetails' => true,
@@ -34,7 +33,8 @@ class ConfigurationModel{
                     'host' => 'localhost',
                     'user' => 'root',
                     'pass' => '',
-                    'dbname' => 'goal_rush'
+                    'dbname' => 'goal_rush',
+                    'port' => '3307'
                 ]
             ];
         }

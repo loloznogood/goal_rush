@@ -26,6 +26,11 @@ class DatabaseModel{
     private $host;
 
     /**
+     * Port
+     */
+    private $port;
+
+    /**
      * Instance de la classe PDO
      */
     private $pdo;
@@ -41,11 +46,12 @@ class DatabaseModel{
     private function __construct(array $connectionData){
 
         $this->host = $connectionData['host'];
+        $this->port = $connectionData['port'];
         $this->dbName = $connectionData['dbname'];
         $this->user = $connectionData['user'];
         $this->pass = $connectionData['pass'];
 
-        $this->pdo = new PDO('mysql:host='.$this->host.';dbname='.$this->dbName.';charset=UTF8MB4', $this->user, $this->pass);
+        $this->pdo = new PDO('mysql:host='.$this->host.';port='.$this->port.';dbname='.$this->dbName.';charset=UTF8MB4', $this->user, $this->pass);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     }
