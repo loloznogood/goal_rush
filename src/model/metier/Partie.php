@@ -14,7 +14,7 @@ class Partie{
     /**
      * @var
      */
-    private $home_id;
+    private $home_team;
 
     /**
      * @var
@@ -24,7 +24,7 @@ class Partie{
      /**
       * @var
       */
-      private $score_home_retour;
+      private $score_home_team;
 
       /**
        * @var
@@ -59,9 +59,9 @@ class Partie{
       /**
        * Bet constructor.
        * @param $id
-       * @param $home_id
+       * @param $home_team
        * @param $away_team
-       * @param $score_home_retour
+       * @param $score_home_team
        * @param $score_away_team
        * @param $home_team_rating
        * @param $away_team_rating
@@ -70,12 +70,12 @@ class Partie{
        * @param $date
        */
 
-       public function __construct($id, $home_id, $away_team, $score_home_retour, $score_away_team, $home_team_rating, $away_team_rating, $draft_rating, $result, $date)
+       public function __construct($id, $home_team, $away_team, $score_home_team, $score_away_team, $home_team_rating, $away_team_rating, $draft_rating, $result, $date)
        {
            $this->id = $id;
-           $this->home_id = $home_id;
+           $this->home_team = $home_team;
            $this->away_team = $away_team;
-           $this->score_home_retour = $score_home_retour;
+           $this->score_home_team = $score_home_team;
            $this->score_away_team = $score_away_team;
            $this->home_team_rating = $home_team_rating;
            $this->away_team_rating = $away_team_rating;
@@ -103,17 +103,17 @@ class Partie{
     /**
      * @return mixed
      */
-    public function getHomeId()
+    public function getHomeTeam()
     {
-        return $this->home_id;
+        return $this->home_team;
     }
 
     /**
-     * @param mixed $home_id
+     * @param mixed $home_team
      */
-    public function setHomeId($home_id): void
+    public function setHomeTeam($home_team): void
     {
-        $this->home_id = $home_id;
+        $this->home_team = $home_team;
     }
 
     /**
@@ -135,17 +135,17 @@ class Partie{
     /**
      * @return mixed
      */
-    public function getScoreHomeRetour()
+    public function getScoreHomeTeam()
     {
-        return $this->score_home_retour;
+        return $this->score_home_team;
     }
 
     /**
-     * @param mixed $score_home_retour
+     * @param mixed $score_home_team
      */
-    public function setScoreHomeRetour($score_home_retour): void
+    public function setScoreHomeTeam($score_home_team): void
     {
-        $this->score_home_retour = $score_home_retour;
+        $this->score_home_team = $score_home_team;
     }
 
     /**

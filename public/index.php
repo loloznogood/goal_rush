@@ -42,6 +42,7 @@ $containerCtrl = new ContainerController($container);
 
 /* ROUTES PAGES VISITEURS DU SITE */
 //Accueil:
+
 $app->get('/', \src\controller\page\AccueilController::class . ':index')
     ->setName('accueil.index');
 
@@ -636,7 +637,9 @@ $app->get('/legal.htm', function ($request, $response, $args) use($app) {
     return $response->withStatus(302)->withHeader('Location', $app->getContainer()->router->pathFor('legal.index'));
 });
 
-
+// PARTIES
+$app->get('/parties', \src\controller\page\PartieController::class . ':all')
+    ->setName('partie.index');
 
 //Test Ali
 $app->get('/ali', \src\controller\page\AliController::class . ':index');
