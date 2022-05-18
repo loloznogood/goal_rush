@@ -49,6 +49,11 @@ class DAOFactory
 
     }
 
+    public function getPartieDAO(){
+        return \src\model\dao\PartieDao::getInstance($this->databaseCtrl);
+
+    }
+
     public function getActualiteDAO(){
         return \src\model\dao\ActualiteDAO::getInstance($this->databaseCtrl);
 
