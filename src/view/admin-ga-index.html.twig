@@ -1,0 +1,195 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
+{% endblock %}
+
+
+{% block main %}
+
+    <main role="main" class="container">
+        {% include 'component/fil-ariane.html.twig' with data.filAriane %}
+
+        {% if data.error is defined %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Erreur:</strong> {{ data.error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+
+        {% if data.success is defined %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Succès:</strong> {{ data.success }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+
+        <div class="dropdown">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Gestion
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="{{ path_for('admin/ga.create') }}"><i class="fas fa-plus"></i> Créer un nouveau groupe article</a>
+                <div class="dropdown-divider"></div>
+            </div>
+        </div>
+
+        <br>
+
+        <ul class="nav nav-tabs" id="gaTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="gaAllTab" data-toggle="tab" href="#gaAllTabContent" role="tab" aria-selected="true">Tous les groupes articles</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="gaEditedTab" data-toggle="tab" href="#gaEditedTabContent" role="tab" aria-selected="false">Les groupes articles édités</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+
+            <div class="tab-pane fade show active container" id="gaAllTabContent" role="tabpanel">
+                <br>
+                <table id="dataTableAll"class="table table-responsive-md table-hover display">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#LP</th>
+                        <th scope="col">#GA</th>
+                        <th scope="col" class="w-70">Intitule</th>
+                        <th scope="col" class="w-20">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ga in data.gas %}
+                        <tr>
+                            <th scope="row">{{ ga.lp }}</th>
+                            <th scope="row">{{ ga.ga }}</th>
+                            <td>{{ ga.intitule }}</td>
+                            <td class="row">
+                                <a class="btn btn-outline-success btn-sm mx-1 my-1" href="{{ ga.url }}" role="button"><i class="fas fa-eye"></i></a>
+                                <a class="btn btn-outline-primary btn-sm mx-1 my-1" href="{{ path_for('admin/ga.edit', {'lp':ga.lp, 'ga':ga.ga}) }}" role="button"><i class="fas fa-edit"></i></a>
+                                <form method="POST" action="{{ path_for('admin/ga.delete', {'lp':ga.lp, 'ga':ga.ga}) }}" class="mx-1 my-1 formDelete">
+                                    <input type="hidden" name="_METHOD" value="DELETE"/>
+                                    <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="tab-pane fade show container" id="gaEditedTabContent" role="tabpanel">
+                <br>
+                <div class="alert alert-warning text-justify" role="alert">
+                    <p>Les groupes articles listés dans cette vue sont tous <strong>les groupes articles qui ont été créés ou modifiés</strong> depuis l'espace d'administration du site internet. En outre, ils ne sont donc <strong>pas écrasés</strong> à chaque mise à jour de la base de données.</p>
+                    <p>Pour annuler la capacité d'un groupe article de ne pas être écrasé, cliquez sur l'icone <strong> <i class="fas fa-minus-square"></i> </strong> correspondante.</p>
+
+                </div>
+                <table id="dataTableEdited"class="table table-responsive-md table-hover display">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#LP</th>
+                        <th scope="col">#GA</th>
+                        <th scope="col" class="w-70">Intitule</th>
+                        <th scope="col" class="w-20">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ga in data.gasEdited %}
+                        <tr>
+                            <th scope="row">{{ ga.lp }}</th>
+                            <th scope="row">{{ ga.ga }}</th>
+                            <td>{{ ga.intitule }}</td>
+                            <td class="row">
+                                <a class="btn btn-outline-success btn-sm mx-1 my-1" href="{{ ga.url }}" role="button"><i class="fas fa-eye"></i></a>
+                                <a class="btn btn-outline-primary btn-sm mx-1 my-1" href="{{ path_for('admin/ga.edit', {'lp':ga.lp, 'ga':ga.ga}) }}" role="button"><i class="fas fa-edit"></i></a>
+                                <form method="POST" action="{{ path_for('admin/ga.deleteSave', {'lp':ga.lp, 'ga':ga.ga}) }}" class="mx-1 my-1 formRemove">
+                                    <input type="hidden" name="_METHOD" value="DELETE"/>
+                                    <button type="submit" class="btn btn-outline-warning btn-sm"><i class="fas fa-minus-square"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+    </main>
+
+    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmation de suppression</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Voulez-vous vraiment supprimer ce groupe article ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <form method="POST" action="" id="formDeleteConfirmation">
+                        <input type="hidden" name="_METHOD" value="DELETE"/>
+                        <button type="submit" class="btn btn-primary"> <i class="fas fa-trash-alt"></i> Supprimer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalRemove" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Voulez-vous vraiment enlever la capacité de ce groupe article à ne pas être écrasé lors des mises à jour de la base de données?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <form method="POST" action="" id="formRemoveConfirmation">
+                        <input type="hidden" name="_METHOD" value="DELETE"/>
+                        <button type="submit" class="btn btn-primary"> <i class="fas fa-minus-square"></i> Enlever</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript" src="/js/datatables.min.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('.formDelete').submit(function(event){
+                event.preventDefault();
+                $('#formDeleteConfirmation').attr('action',$(this).attr('action'));
+                $('#modalDelete').modal('show');
+            });
+
+            $('.formRemove').submit(function(event){
+                event.preventDefault();
+                $('#formRemoveConfirmation').attr('action',$(this).attr('action'));
+                $('#modalRemove').modal('show');
+            });
+
+            $('#dataTableAll').DataTable();
+            $('#dataTableEdited').DataTable();
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,16 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block main %}
+
+    <main role="main" class="container">
+        {% include 'component/fil-ariane.html.twig' %}
+        {% if data.page.titre is defined %}
+            <h3 class="titre1">{{ data.page.titre }}</h3>
+        {% endif %}
+
+        {% if data.page.contenu is defined %}
+            <div class="text-justify">{{ data.page.contenuDecode | raw}}</div>
+            <br>
+        {% endif %}
+    </main>
+{% endblock %}

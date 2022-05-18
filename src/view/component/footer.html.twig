@@ -1,0 +1,68 @@
+<footer class="footer container">
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 ">
+                <p class="titre-footer">JUMO FRANCE</p>
+                <hr class="">
+                <ul class="list-unstyled text-left">
+                    <li><small><a class="a-jumo" href="{{ path_for('accueil.index') }}">ACCUEIL</a></small></li>
+                    <li><small><a class="a-jumo" href="{{ path_for('lien-produits.index') }}">PRODUITS</a></small></li>
+                    <li><small><a class="a-jumo" href="{{ path_for('metrologie.index') }}">MÉTROLOGIE</a></small></li>
+                    <li><small><a class="a-jumo" href="{{ path_for('silothermometrie.index') }}">SILOTHERMOMÉTRIE</a></small></li>
+                    <li><small><a class="a-jumo" href="{{ path_for('actualite.index') }}">ACTUALITÉS/SALONS</a></small></li>
+                    <li><small><a class="a-jumo" href="{{ path_for('entreprise.index') }}">ENTREPRISE</a></small></li>
+                    <li><small><a class="a-jumo" href="{{ path_for('catalogue-standard.index') }}">CATALOGUE STANDARD</a></small></li>
+                    <li><small><a class="a-jumo" href="{{ path_for('catalogue-stock.index') }}">CATALOGUE STOCK</a></small></li>
+                    <li><small><a class="a-jumo" href="{{ path_for('contact.index') }}">CONTACT</a></small></li>
+                    <li><small><a class="a-jumo" href="{{ path_for('legal.index') }}">INFORMATIONS LÉGALES</a></small></li>
+                    <li><small><a class="a-jumo" href="{{ path_for('recherche.index') }}">RECHERCHER</a></small></li>
+                    <li><small><a class="a-jumo" href="https://www.jumo.fr/web/about-us/social-responsibility-fr"> RESPONSABILITÉ SOCIALE</a></small></li>
+                    <li><small><a class="a-jumo" href="#" id="changePreferences">CHANGER LES PRÉFÉRENCES DE COOKIES</a></small></li>
+                </ul>
+            </div>
+           
+            <div class="col-md-3">
+                <p class=" titre-footer">CONTACT</p>
+                <hr class="">
+                <p><small>
+                        JUMO Régulation SAS<br>
+                        Actipôle Borny<br>
+                        7 rue des drapiers<br>
+                        B.P. 45200<br>
+                        57075 Metz - Cedex 3 FRANCE<br>
+                        Tél : +33 3 87 37 53 00<br>
+                        Hotline : 0892 700 733 *<br>
+                        Email : <a class="a-jumo" href="mailto:info.fr@jumo.net">info.fr@jumo.net</a><br>
+                        <em>* 0,80 €/min. depuis un poste fixe</em>
+                    </small></p>
+            </div>
+            <div class="col-md-3">
+                <p class=" titre-footer">SUIVEZ NOUS</p>
+                <hr class="">
+                <div>
+                <a href="https://www.youtube.com/watch?v=jG6P-byD-QM" class="yt-icon"></a>
+                <a href="https://www.facebook.com/JUMO.France" class="fb-icon"></a>
+                <a href="https://www.linkedin.com/showcase/jumo-france/?viewAsMember=true" class="lk-icon"></a>
+                </div>
+                <p>
+                    <small>
+                        Abonnez vous à notre newsletter
+                    </small>
+
+                </p>
+                <form method="GET" action="https://www.jumo.fr/web/about-us/news/newsletter-fr" target="_blank">
+                <div class="input-group">
+                    <input name="email" type="text" class="form-control form-control-sm" placeholder="Votre e-mail">
+                    <div class="input-group-append">
+                        <button href="#" class="btn btn-sm" type="submit" id="newsletterBtn"><i class="far fa-envelope"></i></button>
+                    </div>
+                </div>
+                </form>
+
+            </div>
+        </div>
+        <br>
+        <p class="text-right"><small>©2010 - {{ data.footer.annee }}	<b>Jumo France</b> - Tous droits réservé</small></p>
+    </div>
+</footer>

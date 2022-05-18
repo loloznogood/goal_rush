@@ -1,0 +1,120 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
+{% endblock %}
+
+
+{% block main %}
+
+    <main role="main" class="container">
+
+        {% include 'component/fil-ariane.html.twig' with data.filAriane %}
+
+        <div class="dropdown">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Gestion
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="{{ path_for('admin/catalogue-stock.create') }}"><i class="fas fa-plus"></i> Créer un article dans le catalogue stock</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ path_for('admin/catalogue-stock.createbytn') }}"><i class="fas fa-plus"></i> Ajouter grâce à un TN existant dans odbc</a>
+                 <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ path_for('admin/catalogue-stock.changePDF') }}"><i class="fas fa-plus"></i> Changer le PDF du catalogue stock</a>
+
+            </div>
+        </div>
+        </br>
+
+        <nav class="nav nav-tabs" id="gpTab" role="tablist">
+            <a class="nav-item nav-link active" id="gpAllTab" data-toggle="tab" href="#gpAllTabContent" role="tab" aria-controls="gpAllTabContent" aria-selected="true">Tous les articles du catalogue stock</a>
+            <a class="nav-item nav-link" id="gpEditedTab" data-toggle="tab" href="#gpEditedTabContent" role="tab" aria-controls="gpEditedTabContent" aria-selected="false"></a>
+        </nav>
+
+        <div class="tab-content">
+
+            <div class="tab-pane fade show active container" id="gpAllTabContent" role="tabpanel">
+                <br>
+                <table id="dataTableAll"class="table table-responsive-md table-hover display">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col" >#LP</th>
+                        <th scope="col" >#GA</th>
+                        <th scope="col" >#GP</th>
+                        <th scope="col" >#TN</th>
+                        <th scope="col" class="w-70">Intitule</th>
+                        <th scope="col"class="w-20">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for gp in data.gps %}
+                        <tr>
+                            <th scope="row">{{ gp.lp }}</th>
+                            <th scope="row">{{ gp.ga }}</th>
+                            <th scope="row">{{ gp.gp }}</th>
+                            <th scope="row">{{ gp.tn }}</th>
+                            <td>{{ gp.designation }}</td>
+                            <td class="row">
+                                <a class="btn btn-outline-success btn-sm mx-1 my-1" href="{{ gp.url }}" role="button"><i class="fas fa-eye"></i></a>
+                                <a class="btn btn-outline-primary btn-sm mx-1 my-1" href="{{ path_for('admin/catalogue-stock.edit', {'lp':gp.lp, 'ga':gp.ga, 'gp':gp.gp}) }}" role="button"><i class="fas fa-edit"></i></a>
+                                <form method="POST" action="{{ path_for('admin/catalogue-stock.delete', {'lp':gp.lp, 'ga':gp.ga, 'gp':gp.gp}) }}" class="mx-1 my-1 formDelete">
+                                    <input type="hidden" name="_METHOD" value="DELETE"/>
+                                    <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmation de suppression</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Voulez-vous vraiment supprimer ce groupe article ?
+                    {% for gpp in data.gp %}
+                     {{ gpp.tn }}
+                     {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <form method="POST" action="" id="formDeleteConfirmation">
+                        <input type="hidden" name="_METHOD" value="DELETE"/>
+                        <button type="submit" class="btn btn-primary"> <i class="fas fa-trash-alt"></i> Supprimer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript" src="/js/datatables.min.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('.formDelete').submit(function(event){
+                event.preventDefault();
+                $('#formDeleteConfirmation').attr('action',$(this).attr('action'));
+                $('#modalDelete').modal('show');
+            });
+
+            $('.formRemove').submit(function(event){
+                event.preventDefault();
+                $('#formRemoveConfirmation').attr('action',$(this).attr('action'));
+                $('#modalRemove').modal('show');
+            });
+
+            $('#dataTableAll').DataTable();
+            $('#dataTableEdited').DataTable();
+        });
+    </script>
+{% endblock %}

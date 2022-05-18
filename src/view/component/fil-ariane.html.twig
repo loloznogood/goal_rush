@@ -1,0 +1,7 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb fil-ariane ">
+        {% for key, value in data.filAriane %}
+            <li class="breadcrumb-item"><a href="{{ value }}" class="a-jumo">{{ key }}</a></li>
+        {% endfor %}
+    </ol>
+</nav>

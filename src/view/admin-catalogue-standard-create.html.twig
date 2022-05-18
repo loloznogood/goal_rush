@@ -1,0 +1,129 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block css %}
+    <link rel="stylesheet" href="/css/jquery-ui/jquery-ui.min.css">
+{% endblock %}
+
+
+{% block main %}
+
+    <main role="main" class="container">
+        {% include 'component/fil-ariane.html.twig' with data.filAriane %}
+        <h3 class="text-justify titre1">Formulaire de création d'un catalogue standard</h3>
+        {% if data.error is defined %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Erreur:</strong> {{ data.error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+        <form class="container" method="POST" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label>Type</label>
+                <select class="form-control" name="type" id="typeSelect" onchange="catalogueStandardFormUpdate();">
+                    <option value="-1" selected>Choisir ...</option>
+                    <option value="entier" {% if data.catalogue.type == "entier" %}selected{% endif %}>Intégral</option>
+                    <option value="parLP" {% if data.catalogue.type == "parLP" %}selected{% endif %}>Par ligne de produit (LP)</option>
+                    <option value="parGP" {% if data.catalogue.type == "parGP" %}selected{% endif %}>Par groupe de produit (GP)</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="lp" hidden>
+                <label>#LP</label>
+                <select class="form-control"  id="lpSelect2" name="lpId">
+                    <option value="-1" selected>Choisir une LP ...</option>
+                    {% for lp in data.lps2 %}
+                        <option value="{{ lp.id }}" {% if data.catalogue.lpId == lp.id %}selected{% endif %}>{{ lp.intitule }}</option>
+                    {% endfor %}
+                </select>
+                <select class="form-control"  id="lpSelect" onchange="loadGA();" name="lp">
+                    <option value="-1" selected>Choisir une LP ...</option>
+                    {% for lp in data.lps %}
+                        <option value="{{ lp.lp }}" {% if data.catalogue.lp == lp.lp %}selected{% endif %}>{{ lp.lp }} - {{ lp.intitule }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group" id="ga" hidden>
+                <label>#GA</label>
+                <select class="form-control" name="ga" id="gaSelect" onchange="loadGP();">
+                    <option value="-1" selected>Choisir un GA ...</option>
+                    {% for ga in data.gas %}
+                        <option value="{{ ga.ga }}" {% if data.catalogue.ga == ga.ga %}selected{% endif %}>{{ ga.ga }} - {{ ga.intitule }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group" id="gp" hidden>
+                <label>#GP</label>
+                <select class="form-control" name="gp" id="gpSelect">
+                    <option value="-1" selected>Choisir un GP ...</option>
+                    {% for gp in data.gps %}
+                        <option value="{{ gp.gp }}" {% if data.catalogue.gp == gp.gp %}selected{% endif %}>{{ gp.gp }} - {{ gp.intitule }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label>Intitule</label>
+                <input type="text" class="form-control" name="intitule" value="{{ data.catalogue.intitule }}" aria-describedby="intituleHelp">
+                <small id="intituleHelp" class="form-text text-muted">L'intitué sera utilisé pour le lien du magazine et le nom du fichier PDF. Les espaces, les caractères spéciaux et accentués seront remplacés.</small>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1"><label>Etat</label></div>
+                <div class="col-sm-11">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="pdfActif" {% if data.catalogue.pdfActif %}checked{% endif %}>
+                        <label class="form-check-label">PDF actif</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="magActif" {% if data.catalogue.magActif %}checked{% endif %}>
+                        <label class="form-check-label">Magazine actif</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Fichier PDF</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="fichierPDF" id="fichierPDF">
+                    <label class="custom-file-label">Choisir un fichier ...</label>
+                </div>
+                <small id="intituleHelp" class="form-text text-muted "> 450 Mo max.</small>
+                <span id="fileMaxSize" hidden>{{ data.fileMaxSize}}</span>
+            </div>
+
+            <button type="submit" class="btn btn-outline-primary"> <i class="fas fa-check-circle"></i> Créer</button>
+            <a class="btn btn-outline-secondary float-right" href="{{ path_for('admin/catalogue-standard.index') }}" role="button"><i class="fas fa-arrow-left"></i> Retour</a>
+
+        </form>
+            <br>
+    </main>
+{% endblock %}
+
+{% block javascript %}
+    <script src="/js/ckeditor5/ckeditor.js"></script>
+    <script src="/js/jquery-ui/jquery-ui.js"></script>
+    <script src="/js/scripts/scripts.js"></script>
+    <script>
+        $(document).ready(function(){
+        catalogueStandardFormUpdate();
+        });
+        $('#fichierPDF').on('change',function(){
+            var fileMaxSize = parseInt($("#fileMaxSize").text());
+            var fileSize = this.files[0].size;
+            if( fileMaxSize < fileSize ){
+                alert("Le fichier dépasse la taille d'upload maximale du serveur. Contacez le service informatique pour uploader le fichier via FTP.");
+                $(this).val('');
+            }
+            else{
+                var fileName = $(this).val();//get the file name
+                $(this).next('.custom-file-label').html(fileName);//replace the "Choose a file" label
+            }
+        })
+    </script>
+
+{% endblock %}

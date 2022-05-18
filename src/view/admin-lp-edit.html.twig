@@ -1,0 +1,95 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block css %}
+
+{% endblock %}
+
+
+{% block main %}
+
+    <main role="main" class="container">
+        {% include 'component/fil-ariane.html.twig' with data.filAriane %}
+        <h3 class="text-justify titre1">Formulaire de modification d'une ligne de produits</h3>
+        {% if data.error is defined %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Erreur:</strong> {{ data.error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+
+        {% if data.success is defined %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Succès:</strong> {{ data.success }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+
+        <form class="container" method="POST">
+            <input type="hidden" name="_METHOD" value="PUT"/>
+            <div class="form-group">
+                <label>#Id</label>
+                <input type="text" class="form-control" name="id" aria-describedby="idHelp" readonly value="{{ data.lp.id }}">
+                <small id="idHelp" class="form-text text-muted">L'identifiant de la ligne de produit n'est pas modifiable.</small>
+            </div>
+
+            <div class="form-group">
+                <label>#LP</label>
+                <input type="text" class="form-control" name="lp" aria-describedby="lpHelp" value="{{ data.lp.lp }}">
+                <small id="lpHelp" class="form-text text-muted">Laissez ce champ vide si il s'agit d'une ligne de produit personalisée (ex "transverse").</small>
+            </div>
+
+            <div class="form-group">
+                <label>Intitule</label>
+                <input type="text" class="form-control" name="intitule" value="{{ data.lp.intitule }}">
+            </div>
+            <div class="form-group">
+                <label>Fabriqué en France (1 pour oui)</label>
+                <input type="text" class="form-control" name="fabfr" value="{{ data.lp.fabfr }}">
+            </div>
+            <div class="form-group">
+                <label>Image</label>
+                <div class="input-group mb-3 input-append">
+                    <input type="text" class="form-control" name="image" aria-describedby="imageHelp" placeholder="Chemin du fichier séléctionné" id="js-window-input" value="{{ data.lp.image }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-vert-jumo" type="button" id="js-window-button">Ouvrir le gestionnaire de fichiers</button>
+                    </div>
+                </div>
+                <small id="imageHelp" class="form-text text-muted">Saisissez le chemin d'une image de la forme <kbd>/upload/lp/<i>nom du fichier</i></kbd> </small>
+            </div>
+
+            <button type="submit" class="btn btn-outline-primary"> <i class="fas fa-check-circle"></i> Modifier</button>
+            <a class="btn btn-outline-secondary float-right" href="{{ path_for('admin/lp.index') }}" role="button"><i class="fas fa-arrow-left"></i> Retour</a>
+
+        </form>
+    </main>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(function() {
+            $('#js-window-button').on('click', function() {
+                var opener = window.open("{{ path_for('admin/filemanager.show') }}?expandedFolder=lp ", 'targetWindow',
+                    'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=800, height=800');
+
+                function handlePostMessage(e) {
+                    var data = e.originalEvent.data;
+                    console.log('js-data', data);
+                    if (data.source === 'richfilemanager') {
+                        $('#js-window-input').val(data.preview_url);
+                        opener.close();
+                    }
+
+                    // remove an event handler
+                    $(window).off('message', handlePostMessage);
+                }
+
+                $(window).on('message', handlePostMessage);
+
+            });
+        });
+    </script>
+{% endblock %}

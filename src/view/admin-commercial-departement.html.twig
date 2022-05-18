@@ -1,0 +1,116 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
+{% endblock %}
+
+
+{% block main %}
+
+    <main role="main" class="container">
+
+        {% include 'component/fil-ariane.html.twig' with data.filAriane %}
+
+        {% if data.error is defined %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Erreur:</strong> {{ data.error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+
+        {% if data.success is defined %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Succès:</strong> {{ data.success }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+
+        <h3 class="text-justify titre1">Modification de l'affectation des départements des commerciaux</h3>
+
+        <div class="row">
+            <form class="container col-md-3">
+                <input type="hidden" name="fonction" value="dir">
+                <div class="form-group">
+                    <label>Directeur Commercial</label>
+                    <select class="form-control" name="id">
+                        <option value="0" selected>Choisir ...</option>
+                        {% for dir in data.dirs %}
+                            <option value="{{ dir.id }}">{{ dir.prenom }} {{ dir.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-outline-primary select-btn">Sélectionner</button>
+            </form>
+
+            <form class="container col-md-3">
+                <input type="hidden" name="fonction" value="itc">
+                <div class="form-group">
+                    <label>ITC</label>
+                    <select class="form-control" name="id">
+                        <option value="0" selected>Choisir ...</option>
+                        {% for itc in data.itcs %}
+                            <option value="{{ itc.id }}">{{ itc.prenom }} {{ itc.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-outline-primary select-btn">Sélectionner</button>
+            </form>
+
+            <form class="container col-md-3">
+                <input type="hidden" name="fonction" value="tcs">
+                <div class="form-group">
+                    <label>TCS</label>
+                    <select class="form-control" name="id">
+                        <option value="0" selected>Choisir ...</option>
+                        {% for tcs in data.tcss %}
+                            <option value="{{ tcs.id }}">{{ tcs.prenom }} {{ tcs.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-outline-primary select-btn">Sélectionner</button>
+            </form>
+
+            <form class="container col-md-3">
+                <input type="hidden" name="fonction" value="ac">
+                <div class="form-group">
+                    <label>Assisstant(e) Commercial(e)</label>
+                    <select class="form-control" name="id">
+                        <option value="0" selected>Choisir ...</option>
+                        {% for ac in data.acs %}
+                            <option value="{{ ac.id }}">{{ ac.prenom }} {{ ac.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-outline-primary select-btn">Sélectionner</button>
+            </form>
+
+
+        </div>
+
+        <br>
+        <br>
+        <a class="btn btn-outline-secondary" href="{{ path_for('admin/commercial.index') }}" role="button"><i class="fas fa-arrow-left"></i> Retour</a>
+
+    </main>
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(function() {
+            $( ".select-btn" ).click(function(event) {
+                event.preventDefault();
+                var form = $(this).parent();
+                var fonction = form.children(":first").val();
+                var id = form.find("select option:selected").val();
+                var url = "{{ path_for('admin/commercial.editDepartement', {'id': 'id_val', 'fonction': 'fonction_val'}) }}";
+                url = url.replace('id_val', id).replace('fonction_val', fonction);
+                $(location).attr('href',url);
+            });
+        });
+    </script>
+{% endblock %}

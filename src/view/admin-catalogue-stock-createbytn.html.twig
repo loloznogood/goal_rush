@@ -1,0 +1,56 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block css %}
+
+{% endblock %}
+
+
+{% block main %}
+
+    <main role="main" class="container">
+        {% include 'component/fil-ariane.html.twig' with data.filAriane %}
+        <h3 class="text-justify titre1">Formulaire de création d'un nouveau article pour le catalogue stock</h3>
+        {% if data.error is defined %}
+        {% if data.error == "Erreur SQL: SQLSTATE[HY000]: General error: 1366 Incorrect integer value: '' for column 'lp' at row 1"%}
+         <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Erreur :</strong> Ce TN est inexistant dans le fichier odbc
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% else %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Erreur:</strong> {{ data.error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+        {% endif %}
+        <form class="container" method="POST">
+
+            <div class="form-group">
+                <label>#TN</label>
+                <input type="text" class="form-control" name="tn" placeholder="Numéro de TN" value="{{ data.gp.tn }}">
+                 <small id="gaHelp" class="form-text text-muted">Le TN doit correspondre à un TN existant dans le fichier odbc</small>
+            </div>
+
+
+            <button type="submit" class="btn btn-outline-primary"> <i class="fas fa-check-circle"></i> Créer</button>
+            <a class="btn btn-outline-secondary float-right" href="{{ path_for('admin/catalogue-stock.index') }}" role="button"><i class="fas fa-arrow-left"></i> Retour</a>
+
+        </form>
+    </main>
+{% endblock %}
+
+{% block javascript %}
+    <script src="/js/scripts/scripts.js"></script>
+    <script src="/ckeditor4/ckeditor.js"></script>
+    <script src="/js/scripts/ckeditorLoader.js"></script>
+    <script>
+        /* Ckeditor */
+                /* Ckeditor */
+     //   loadCkeditor('editor1', 4);
+      //  loadCkeditor('editor2', 4);
+    </script>
+{% endblock %}

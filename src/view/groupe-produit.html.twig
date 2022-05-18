@@ -1,0 +1,68 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block main %}
+
+	<main role="main" class="bg-white">
+		<section class="bg-light">
+			{% include 'component/fil-ariane.html.twig' with data.filAriane %}
+			<div class="container">
+				<div class="row">
+					<div class="col-md-10">
+						<div class="row justify-content-around">
+							<div class="col-md-7">
+								<div class="text-justify ul-jumo mr-6">
+									<h5 class="labeltypeprod">{{ data.gp.typelabel }}</h5>
+									<h4 class="titre1">{{ data.gp.description1 }}</h4>
+									<h2 class="titre1">{{ data.gp.intitule }}
+										({{ data.gp.getNumProduit }})</h2>
+									<br>
+									<h4>{{ data.gp.description2|raw }}</h4>
+								</div>
+							</div>
+							<div class="col-md-5">
+								<img src="{{ data.gp.ImageUrl }}" alt="image produit" class="img-fluid  float-right d-block ">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% if data.fiche %}
+				<div>
+					<a class="btn btn-primary btn-lg text-dark ml-5 mb-5 mt-3" href="https://www.jumo-france.fr/upload/pdf/{{data.gp.getNumProduit}}.pdf">Fiche technique du produit</a>
+				</div>
+			{% endif %}
+		</section>
+		{% if data.gp.automatique == 1 %}
+			<div class="bg-light">
+				<a class="btn btn-primary btn-lg text-dark ml-5 mb-5 mt-3" href="https://www.jumo.fr/web/products/apps/productdetailpage?pdpId={{data.gp.getNumProduit}}">En savoir plus</a>
+			</div>
+		{% endif %}
+		{% set tsize = data.gp.namescarac|length %}
+		{% if tsize > 1 %}
+			<div class="col-md-7 mx-auto mt-5">
+				<div>
+					<table class="table table-bordered">
+						<thead>
+							<h3>
+								<u>DONNÉES TECHNIQUES GÉNÉRALES</u>
+							</h3>
+						</thead>
+						<!--{% set n = data.gp.namescarac|merge(data.gp.carac) %}-->
+						{% for ns in 1 .. tsize - 1 %}
+							<tr>
+								<td>{{ data.gp.namescarac[ns] }}</td>
+								<td>{{ data.gp.carac[ns]|trim(',','right')}}</td>
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+			{% if data.gp.automatique == 1 %}
+				<div>
+					<a class="btn btn-primary btn-lg text-dark ml-5 mb-5 mt-3" href="https://www.jumo.fr/web/products/apps/productdetailpage?pdpId={{data.gp.getNumProduit}}">En savoir plus</a>
+				</div>
+			{% endif %}
+			{% else %}
+		{% endif %}
+	</main>
+{% endblock %}

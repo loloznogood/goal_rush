@@ -1,0 +1,89 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block css %}
+
+{% endblock %}
+
+
+{% block main %}
+
+    <main role="main" class="container">
+        {% include 'component/fil-ariane.html.twig' with data.filAriane %}
+        <h3 class="text-justify titre1">Formulaire de modification d'un nouveau commercial</h3>
+        {% if data.error is defined %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Erreur:</strong> {{ data.error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+        <form class="container" method="POST">
+            <input type="hidden" name="_METHOD" value="PUT"/>
+            <div class="form-group">
+                <label>#Id</label>
+                <input type="text" class="form-control" name="id"  value="{{ data.commercial.id }}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Nom</label>
+                <input type="text" class="form-control" name="nom" placeholder="Nom" value="{{ data.commercial.nom }}">
+            </div>
+            <div class="form-group">
+                <label>Prénom</label>
+                <input type="text" class="form-control" name="prenom" placeholder="Prénom" value="{{ data.commercial.prenom }}">
+            </div>
+
+            <div class="form-group">
+                <label>Fonction</label>
+                <select class="form-control" name="fonction">
+                    <option value="-1" selected>Choisir ...</option>
+                    <option value="Ingénieur Technico Commercial" {% if data.commercial.fonction == "Ingénieur Technico Commercial" %}selected{% endif %}>Ingénieur Technico Commercial</option>
+                    <option value="Ingénieure Technico Commerciale" {% if data.commercial.fonction == "Ingénieure Technico Commerciale" %}selected{% endif %}>Ingénieure Technico Commerciale</option>
+                    <option value="Technico Commercial Sédentaire"{% if data.commercial.fonction == "Technico Commercial Sédentaire" %}selected{% endif %}>Technico Commercial Sédentaire</option>
+                    <option value="Technico Commerciale Sédentaire"{% if data.commercial.fonction == "Technico Commerciale Sédentaire" %}selected{% endif %}>Technico Commerciale Sédentaire</option>
+                    <option value="Assistante Commerciale"{% if data.commercial.fonction == "Assistante Commerciale" %}selected{% endif %}>Assistante Commerciale</option>
+                    <option value="Assistant Commercial"{% if data.commercial.fonction == "Assistant Commercial" %}selected{% endif %}>Assistant Commercial</option>
+                    <option value="Directeur Commercial"{% if data.commercial.fonction == "Directeur Commercial" %}selected{% endif %}>Directeur Commercial</option>
+                    <option value="Directrice Commerciale"{% if data.commercial.fonction == "Directrice Commerciale" %}selected{% endif %}>Directrice Commerciale</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Mail</label>
+                <input type="email" class="form-control" name="mail" placeholder="Mail" value="{{ data.commercial.mail }}">
+            </div>
+            <div class="form-group">
+                <label>Téléphone</label>
+                <input type="text" class="form-control" name="tel" placeholder="Téléphone" value="{{ data.commercial.tel }}">
+            </div>
+
+            <div class="form-group">
+                <label>Fax</label>
+                <input type="text" class="form-control" name="fax" placeholder="Fax" value="{{ data.commercial.fax }}">
+            </div>
+
+            <div class="form-group">
+                <label>Numéro représentant</label>
+                <input type="text" class="form-control" name="numRepr" placeholder="Numéro représentant" value="{{ data.commercial.numRepr }}">
+            </div>
+
+            <div class="form-group">
+                <label>Image</label>
+                <input type="text" class="form-control" name="image" placeholder="Image" value="{{ data.commercial.image }}">
+                <small  class="form-text text-muted">Saisissez le chemin d'une image de la forme <kbd>/upload/commerciaux/<i>nom du fichier</i></kbd> </small>
+            </div>
+
+            <button type="submit" class="btn btn-outline-primary"> <i class="fas fa-check-circle"></i> Modifier</button>
+            <a class="btn btn-outline-secondary float-right" href="{{ path_for('admin/commercial.index') }}" role="button"><i class="fas fa-arrow-left"></i> Retour</a>
+
+        </form>
+    </main>
+{% endblock %}
+
+{% block javascript %}
+    <script src="/js/ckeditor5/ckeditor.js"></script>
+    <script>
+        /* Ckeditor */
+        ClassicEditor.create( document.querySelector( '#editor' ) ).catch( error => { console.log(error); });
+    </script>
+{% endblock %}

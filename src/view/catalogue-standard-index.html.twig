@@ -1,0 +1,36 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block main %}
+
+    <main role="main" class="container">
+        {% include 'component/fil-ariane.html.twig' with data.filAriane %}
+
+        {% if data.page.titre is defined %}
+            <h3 class="titre1">{{ data.page.titre }}</h3>
+        {% endif %}
+
+        {% if data.page.contenu is defined %}
+            <div class="text-justify">{{ data.page.contenuDecode | raw }}</div>
+            <br>
+        {% endif %}
+
+        <div class="jumbotron">
+            <h4 class="titre1">Catalogue Standard intégral</h4>
+            <div class="row">
+                <p class="lead text-justify col-md-9">Découvrez notre catalogue standard intégral en version magazine pour un meilleur confort de lecture, ou en version PDF pour une lecture standard.</p>
+                <div class="col-md-3 text-center">
+                    <img class="border-0 rounded-bottom " src="img/catalogue-standard.jpg" alt="Image catalogue standard">
+                </div>
+            </div>
+            {% if data.csIntegral  %}
+                <hr class="my-4">
+                {% if data.csIntegral.isActifMag %}
+                    <a class="btn btn-outline-orange-jumo btn-lg mr-4" href="{{ data.csIntegral.fichierMag }}" role="button">Magazine</a>
+                {% endif %}
+                {% if data.csIntegral.isActifPdf %}
+                    <a class="btn btn-outline-vert-jumo btn-lg ml-4" href="{{ data.csIntegral.fichierPdf }}" role="button">PDF</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}

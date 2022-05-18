@@ -1,0 +1,63 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block main %}
+
+    <main role="main" class="container">
+        {% include 'component/fil-ariane.html.twig' with data.filAriane %}
+
+        {% if data.page.titre is defined %}
+            <h3 class="titre1">{{ data.page.titre }}</h3>
+        {% endif %}
+
+        {% if data.page.contenu is defined %}
+            <div class="text-justify">{{ data.page.contenuDecode | raw }}</div>
+        {% endif %}
+
+        <div class="jumbotron">
+            <h4 class="titre1">Catalogue Stock intégral</h4>
+            <div class="row">
+                <p class="lead text-justify col-md-9">Découvrez notre catalogue stock intégral en version magazine pour un meilleur confort de lecture, ou en version PDF pour une lecture standard.</p>
+                <div class="col-md-3 text-center">
+                </div>
+            </div>
+                <hr class="my-4">           
+                    <a class="btn btn-outline-orange-jumo btn-lg mr-4" href="/upload/cataloguestandard/magazine/entier/catastock/index.html" role="button">Magazine</a>
+                    <a class="btn btn-outline-vert-jumo btn-lg ml-4" href="/upload/cataloguestandard/pdf/entier/catastock.pdf" role="button">PDF</a>
+        </div>
+
+        <h4 class="titre1">Voici les produits disponibles :</h4>
+        <div class="row">
+            {% for d in data.LP %}
+            {% if d.gaexist | length == 0 %}
+            {% else %}
+                <div class="col-md-6 d-flex">
+                    <div class="media card-lp-jumo">
+                        <div class="row mx-auto">
+                            <div class="col-md-3 text-center">
+                                <a href="{{ path_for('catalogue-stock.show',{'id':d.lp.id, 'lp':d.lp.lp}) }}">
+                                    <img class="align-self-start img-fluid img-lp-service-jumo mx-auto d-block" src="{{ d.lp.imageUrl }}" alt="image LP">
+                                </a>
+                            </div>
+                            <div class="media-body col-md-9">
+                                <h5 class="mt-0 bleu-jumo"><a class="a-jumo" href="{{ path_for('catalogue-stock.show',{'id':d.lp.id, 'lp':d.lp.lp}) }}">{{ d.lp.intitule }}</a></h5>
+                                <ul class="card-text ul-jumo">
+                               {#   {% for d2 in d.gas %}     #}
+                                    {% for d2 in d.gaexist %}
+                                            <li><a class="a-jumo" href="{{ d2.Urlstock }}">{{ d2.intitule }}</a></li>                                      
+                                    {% endfor %}
+                                    {% if d.gaexist | length == 0 %}
+                                        Pas de produits disponibles
+                                    {% else %}
+                                        <li><a href="{{ path_for('catalogue-stock.show',{'id':d.lp.id, 'lp':d.lp.lp}) }}" class="btn btn-link" role="button"> Voir plus</a></li>
+                                    {% endif %}
+                {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </main>
+{% endblock %}

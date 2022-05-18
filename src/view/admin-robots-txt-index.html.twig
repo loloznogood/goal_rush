@@ -1,0 +1,46 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
+{% endblock %}
+
+
+{% block main %}
+
+    <main role="main" class="container">
+        {% include 'component/fil-ariane.html.twig' with data.filAriane %}
+
+        {% if data.error is defined %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Erreur:</strong> {{ data.error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+
+        {% if data.success is defined %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Succès:</strong> {{ data.success }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+
+        <h3 class="titre1"> Fichier robots.txt </h3>
+        <div class="alert alert-light" role="alert">
+            Le fichier doit être placé à la racine du dossier <kbd>public</kbd>. Plus d'info sur le fichier <kbd>robots.txt</kbd> <a href="https://www.google.fr/search?q=robots.txt">ici</a>.
+        </div>
+        <a href="{{ path_for('admin/robots-txt.replace') }}" class="btn btn-outline-vert-jumo" role="button" aria-pressed="true">Générer puis remplacer le fichier sur le serveur</a>
+        <a href="{{ path_for('admin/robots-txt.download') }}" class="btn btn-outline-orange-jumo" role="button" aria-pressed="true">Générer puis télécharger le fichier</a>
+        <a class="btn btn-outline-secondary float-right" href="{{ path_for('admin/home.index') }}" role="button"><i class="fas fa-arrow-left"></i> Retour</a>
+    <br>
+    <br>
+    </main>
+
+
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

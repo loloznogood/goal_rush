@@ -1,0 +1,30 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block main %}
+
+    <main role="main" class="container">
+        {% include 'component/fil-ariane.html.twig' with data.filAriane %}
+        <div class="container">
+			<div class="row">
+				<div class="col-md-8">
+					<div class="media">
+						<div class="row w-100">
+							<div class="text-center">
+								<img id="ligne-prod-img" src="{{ data.lp.imageUrl }}" alt="image LP">
+							</div>
+							<div class="media-body col-md-10 container-fluid">
+								<ul class="text-left d-flex flex-wrap">
+									{% for d in data.gas %}
+										<li class="m-1">
+											<a class="list-group-item list-group-item-action list-group-item-light text-dark" href="{{ d.Urlstock }}">{{ d.intitule }}</a>
+										</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </main>
+{% endblock %}

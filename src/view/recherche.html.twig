@@ -1,0 +1,104 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block main %}
+
+    <main role="main" class="container">
+        {% include 'component/fil-ariane.html.twig' with data.filAriane %}
+
+        {% if data.page.titre is defined %}
+            <h3 class="titre1">{{ data.page.titre }}</h3>
+        {% endif %}
+
+        {% if data.page.contenu is defined %}
+            <div class="text-justify">{{ data.page.contenuDecode | raw}}</div>
+        {% endif %}
+
+        <form class="container" method="POST" action="{{ path_for('recherche.index') }}">
+            <div class="form-row">
+                <div class="col-md-10">
+                    <input type="search" class="form-control mb-1" name="recherche" placeholder="Saisir ce que vous souhaitez rechercher...">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn1-jumo mx-auto d-block" type="submit" >Rechercher</button>
+                </div>
+            </div>
+        </form>
+
+        <hr>
+        {% if data.terme is defined %}
+            <h3 class="titre1">Résultat(s) de la recherche </h3>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <label class="col-md-2 text-muted">Votre recherche:</label>
+                    <div class="col-md-10 ">
+                        <p>{{ data.terme }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2 text-muted">Résultat(s):</label>
+                    <div class="col-md-10">
+                        {% if data.resultat is empty %}
+                            <p>Aucun résultat n'a été trouvé pour cette recherche.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="container">
+                    {% if data.resultat is not empty %}
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-10">
+                                {% if data.resultat.produit is not empty %}
+                                    <p class="text-muted"><i class="fas fa-angle-right"></i> Produits ({{ data.resultat.produit | length }}):</p>
+                                    <ul class="ul-jumo">
+                                        {% for r in data.resultat.produit %}
+                                            <li> <a class="a-jumo" target="_blank" href="{{ r.Url }}">{{ r.Name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+
+                                {% if data.resultat.stock is not empty %}
+                                    <p class="text-muted"><i class="fas fa-angle-right"></i> En stock ({{ data.resultat.stock | length }}):</p>
+                                    <ul class="ul-jumo">
+                                        {% for r in data.resultat.stock %}
+                                            <li> <a class="a-jumo" target="_blank" href="{{ r.Url }}">{{ r.Name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+
+                                <!--{% if data.resultat.catalogue is not empty %}
+                                    <p class="text-muted"><i class="fas fa-angle-right"></i> Catalogues standards ({{ data.resultat.catalogue | length }}):</p>
+                                    <ul class="ul-jumo">
+                                        {% for r in data.resultat.catalogue %}
+                                            <li> <a class="a-jumo" target="_blank" href="{{ r.Url }}">{{ r.Name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}-->
+
+                                {% if data.resultat.actualite is not empty %}
+                                    <p class="text-muted"><i class="fas fa-angle-right"></i> Actualités / Salons ({{ data.resultat.actualite | length }}):</p>
+                                    <ul class="ul-jumo">
+                                        {% for r in data.resultat.actualite %}
+                                            <li> <a class="a-jumo" target="_blank" href="{{ r.Url }}">{{ r.Name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+
+                                {% if data.resultat.service is not empty %}
+                                    <p class="text-muted"><i class="fas fa-angle-right"></i> Service ({{ data.resultat.service | length }}):</p>
+                                    <ul class="ul-jumo">
+                                        {% for r in data.resultat.service %}
+                                            <li> <a class="a-jumo" target="_blank" href="{{ r.Url }}">{{ r.Name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        <br>
+    </main>
+{% endblock %}

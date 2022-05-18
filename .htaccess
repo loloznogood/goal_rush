@@ -1,3 +1,6 @@
+# Ce fichier .htaccess a pour but de pallier le fait que l'on ne peut pas changer le DOCUMENT_ROOT
+# de la configuration Apache chez l'herbergeur.
+# Ce fichier fait de la ré-ecriture d'url à la volé : il redirige les requètes vers le dossier public.
 RewriteEngine on
-RewriteRule ^$ public/ [L]
-RewriteRule (.*) public/$1 [L]
+RewriteCond %{REQUEST_URI} !^public
+RewriteRule ^(.*)$ public/$1 [L]

@@ -1,0 +1,144 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block css %}
+	<link rel="stylesheet" href="/css/owlCarousel/owl.carousel.css">
+
+	<link rel="stylesheet" href="/css/owlCarousel/owl.theme.default.css">
+	<link rel="stylesheet" href="/css/style.css">
+{% endblock %}
+
+{% block main %}
+
+	<div class="icon-container">
+		<div class="row-centre filtre-bleu ">
+			<div class="row-centre">
+				<div class="div-icon">
+					<a href="https://www.jumo.fr/web/products/temperature" class=""><img class="icon-categ" src="/img/categ/temperature.png"/></a>
+					<p class="txt">Température</p>
+				</div>
+				<div class="div-icon">
+					<a href="https://www.jumo.fr/web/products/liquid-analysis"><img class="icon-categ" src="/img/categ/liquid-analysis.png"/></a>
+					<p class="txt">Analyse des liquides</p>
+				</div>
+				<div class="div-icon">
+					<a href="https://www.jumo.fr/web/products/pressure"><img class="icon-categ" src="/img/categ/pressure.png"/></a>
+					<p class="txt">Pression</p>
+				</div>
+				<div class="div-icon">
+					<a href="https://www.jumo.fr/web/products/level"><img class="icon-categ" src="/img/categ/level.png"/></a>
+					<p class="txt">Niveau</p>
+				</div>
+				<div class="div-icon">
+					<a href="https://www.jumo.fr/web/products/flow"><img class="icon-categ" src="/img/categ/flow.png"/></a>
+					<p class="txt">Débit</p>
+				</div>
+				<div class="div-icon">
+					<a href="https://www.jumo.fr/web/products/humidity-co2"><img class="icon-categ" src="/img/categ/humidity.png"/></a>
+					<p class="txt">Humidité</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<main role="main" class="container">
+		<div class="row-centre">
+			<div id="carousel" class="no-border transparent owl-carousel owl-theme  alert alert-light largeur800 mt-5">
+				{% for a in data.actusCarousel %}
+					<div class="item">
+						<a href="{{a.lien}}" class="">
+							<div class="carousel-image-div">
+								<img src="{{ a.imageUrl }}" alt="image actualite" class="img-fluid">
+							</div>
+							<div class="carousel-caption-jumo">
+								<p>{{a.intitule}}</p>
+							</div>
+						</a>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+		<h1 class="text-center mt-4" id="title-div">
+			<a class="a-jumo" href="{{ path_for('ligne-produit.index') }}">LES PRODUITS FABRIQUÉS EN FRANCE</a>
+		</h1>
+		<div class="row justify-content-center">
+			{% for d in data.LP %}
+				{% if d.lp.fabfr == 1 %}
+					<div class="col-md-6 m-2">
+						<a href="{{ d.lp.Url }}">
+							<img id="intro-example" src="{{d.lp.imageUrl}}" alt="image Produit">
+						</a>
+						<div class="text-center p-2" id="test">
+							<h2 class="">
+								<a class="" id="test2" href="{{ d.lp.Url }}">{{ d.lp.intitule }}</a>
+							</h2>
+							<a class="" id="test2" href="{{ d.lp.Url }}">En savoir plus</a>
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+
+		<h1 class="text-center mt-4" id="title-div">
+			<a class="a-jumo" href="{{ path_for('ligne-produit.index') }}">NOS PRODUITS</a>
+		</h1>
+		<div class="row justify-content-center">
+			{% for d in data.LP %}
+				{% if d.lp.fabfr != 1 %}
+				<div class="col-md-6 m-2">
+					<a href="{{ d.lp.Url }}">
+						<img id="intro-example" src="{{d.lp.imageUrl}}" alt="image Produit">
+					</a>
+					<div class="text-center p-2" id="test">
+						<h2 class="">
+							<a class="" id="test2" href="{{ d.lp.Url }}">{{ d.lp.intitule }}</a>
+						</h2>
+						<a class="" id="test2" href="{{ d.lp.Url }}">En savoir plus</a>
+					</div>
+				</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+
+
+		<h1 class="text-center mt-4" id="title-div">
+			<a class="a-jumo" href="{{ path_for('service.index') }}"> NOS SERVICES</a>
+		</h1>
+		<div class="row justify-content-center">
+			{% for s in data.services %}
+				<div class="col-md-6 m-2">
+					<a href="{{ s.Url }}">
+						<img id="intro-example" src="{{s.imageUrl}}" alt="image Service">
+					</a>
+					<div class="text-center p-2" id="test">
+						<h3 class="">
+							<a class="" id="test2" href="{{ s.Url }}">{{ s.intitule }}</a>
+						</h3>
+						<h5 class="">{{ s.description }}</h5>
+						<a class="" id="test2" href="{{ s.Url }}">En savoir plus</a>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</main>
+{% endblock %}
+{% block javascript %}
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/owlCarousel/owl.carousel.min.js"></script>
+	<script src="js/owlCarousel/script.js"></script>
+	<script src="js/scripts/scripts.js"></script>
+	<script>
+		/* Construction du carousel au chargement de la page */
+$(document).ready(function () {
+var owl = $('.owl-carousel');
+owl.owlCarousel({
+items: 3,
+loop: true,
+margin: 10,
+autoplay: true,
+autoplayTimeout: 3000,
+autoplayHoverPause: true,
+autoHeight: false,
+autoHeightClass: 'owl-height'
+});
+});
+	</script>
+{% endblock %}

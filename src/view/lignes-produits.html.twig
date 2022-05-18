@@ -1,0 +1,46 @@
+{%  extends 'component/layout.html.twig' %}
+
+{% block main %}
+
+	<main role="main" class="container">
+		{% include 'component/fil-ariane.html.twig' with data.filAriane %}
+
+		<h1 class="text-center mt-4" id="title-div">
+			<a class="a-jumo" href="{{ path_for('ligne-produit.index') }}">LES PRODUITS FABRIQUÉS EN FRANCE</a>
+		</h1>
+		<div class="row justify-content-center">
+			{% for d in data.LP %}
+				{% if d.lp.fabfr == 1 %}
+					<div class="col-md-6 m-2">
+						<a href="{{ d.lp.Url }}">
+							<img id="intro-example" src="{{d.lp.imageUrl}}" alt="image Produit">
+						</a>
+						<div class="text-center p-2" id="test">
+							<h2 class="">
+								<a class="" id="test2" href="{{ d.lp.Url }}">{{ d.lp.intitule }}</a>
+							</h2>
+							<a class="" id="test2" href="{{ d.lp.Url }}">En savoir plus</a>
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+		<h1 class="text-center mt-5 mb-4" id="title-div">NOS LIGNES DE PRODUITS</h1>
+		<div class="row justify-content-center mb-4">
+			{% for d in data.LP %}
+				{% if d.lp.fabfr != 1 %}
+				<div class="col-md-4 m-4">
+					<a href="{{ d.lp.Url }}">
+						<img id="intro-example" src="{{d.lp.imageUrl}}" alt="image Service">
+					</a>
+					<div class="text-center p-2" id="test">
+						<h2 class="">
+							<a class="" id="test2" href="{{ d.lp.Url }}">{{ d.lp.intitule }}</a>
+						</h2>
+					</div>
+				</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</main>
+{% endblock %}
